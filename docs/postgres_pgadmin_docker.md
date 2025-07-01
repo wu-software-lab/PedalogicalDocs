@@ -11,6 +11,7 @@ docker network create pedalogical-network
 ```
 
 Creates a private network so your database and tools (like pgAdmin) can communicate using container names.
+Note: `devpass` is used as the password for simplicity in development.
 
 ---
 
@@ -25,7 +26,7 @@ docker run -d \
   -e POSTGRES_USER=pedalogical \
   -e POSTGRES_PASSWORD=devpass \
   -e POSTGRES_DB=pedalogical \
-  -v ~/Projects/Pedalogical/docker/dbdata:/var/lib/postgresql/data \
+  -v ~/Repositories/AiTutor/docker/dbdata:/var/lib/postgresql/data \
   -p 5433:5432 \
   postgres:16
 ```
@@ -39,14 +40,14 @@ docker run -d `
   -e POSTGRES_USER=pedalogical `
   -e POSTGRES_PASSWORD=devpass `
   -e POSTGRES_DB=pedalogical `
-  -v ${env:USERPROFILE}\Projects\Pedalogical\docker\dbdata:/var/lib/postgresql/data `
+  -v ${env:USERPROFILE}\Repositories\AiTutor\docker\dbdata:/var/lib/postgresql/data `
   -p 5433:5432 `
   postgres:16
 ```
 
 ---
 
-## (Optional) Run pgAdmin
+## Run pgAdmin
 
 ### macOS
 
@@ -56,7 +57,7 @@ docker run -d \
   --network pedalogical-network \
   -e PGADMIN_DEFAULT_EMAIL=admin@pedalogical.local \
   -e PGADMIN_DEFAULT_PASSWORD=admin \
-  -v ~/Projects/Pedalogical/docker/pgadmin:/var/lib/pgadmin \
+  -v ~/Repositories/AiTutor/docker/pgadmin:/var/lib/pgadmin \
   -p 5050:80 \
   dpage/pgadmin4
 ```
@@ -69,7 +70,7 @@ docker run -d `
   --network pedalogical-network `
   -e PGADMIN_DEFAULT_EMAIL=admin@pedalogical.local `
   -e PGADMIN_DEFAULT_PASSWORD=admin `
-  -v ${env:USERPROFILE}\Projects\Pedalogical\docker\pgadmin:/var/lib/pgadmin `
+  -v ${env:USERPROFILE}\Repositories\AiTutor\docker\pgadmin:/var/lib/pgadmin `
   -p 5050:80 `
   dpage/pgadmin4
 ```

@@ -1,13 +1,14 @@
 site_name: Pedalogical Developer Setup
 repo_url: https://github.com/wu-software-lab/AiTutor
+site_url: https://wu-software-lab.github.io/PedalogicalDocs/
 theme:
   name: material
 
 nav:
   - Home: index.md
-  - Step 1: Pre-requisites: prerequisites.md
-  - Step 2: Clone the Repository: clone-repo.md
-  - Step 3: Set Up PostgreSQL + pgAdmin: postgres_pgadmin_docker.md
-  - Step 4: Configure the App: configure-app.md
-  - Step 5: Run Migrations & Seed the Database: run-migrations.md
-  - Step 6: Run the Application: run-app.md
+  - "Step 1: Pre-requisites": prerequisites.md
+  - "Step 2: Clone the Repository": clone-repo.md
+  - "Step 3: Set Up PostgreSQL + pgAdmin": postgres_pgadmin_docker.md
+  - "Step 4: Configure the App": configure-app.md
+  - "Step 5: Run Migrations & Seed the Database": run-migrations.md
+  - "Step 6: Run the Application": run-app.md

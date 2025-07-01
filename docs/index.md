@@ -22,7 +22,7 @@ By the end of this guide, you will:
 2. [Clone the Repository](./clone-repo.md)  
    How to fork and clone the Pedalogical GitHub repo.
 
-3. [Set Up PostgreSQL + pgAdmin in Docker](./postgres-docker.md)  
+3. [Set Up PostgreSQL + pgAdmin in Docker](./postgres_pgadmin_docker.md)  
    Instructions for creating a local Postgres container and admin GUI.
 
 4. [Configure the App](./configure-app.md)  
@@ -46,6 +46,4 @@ Once you complete all steps, you should be able to:
 
 ---
 
-Having trouble? Create an issue or reach out to the team through GitHub.
-
-Happy coding!
+Having trouble? Reach out to the team through Discord.
