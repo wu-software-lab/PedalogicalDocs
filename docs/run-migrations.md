@@ -17,6 +17,7 @@ dotnet ef database update --project AiTutor
 ```
 
 This will:
+
 - Create the database schema in the container
 - Apply any pending migrations
 - Seed the database with initial data (including a test user)

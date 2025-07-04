@@ -1,8 +1,13 @@
+---
+title: "Step 3: Set Up PostgreSQL + pgAdmin in Docker"
+format: gfm
+---
+
 # Step 3: Set Up PostgreSQL + pgAdmin in Docker
 
-This step sets up a PostgreSQL database and pgAdmin in Docker, specifically configured for Pedalogical development.
+This step sets up a PostgreSQL database and pgAdmin using Docker, specifically configured for Pedalogical development.
 
----
+> 📁 All Docker-related config and volume paths will now reference the `docker/` directory inside the project repository.
 
 ## Create a Docker Network
 
@@ -10,12 +15,11 @@ This step sets up a PostgreSQL database and pgAdmin in Docker, specifically conf
 docker network create pedalogical-network
 ```
 
-Creates a private network so your database and tools (like pgAdmin) can communicate using container names.
-Note: `devpass` is used as the password for simplicity in development.
-
----
+This creates a private network that allows Docker containers (PostgreSQL, pgAdmin, and others) to communicate with each other by name.
 
 ## Run PostgreSQL Container
+
+Navigate to the root of your **Pedalogical** repository, then run:
 
 ### macOS
 
@@ -26,9 +30,9 @@ docker run -d \
   -e POSTGRES_USER=pedalogical \
   -e POSTGRES_PASSWORD=devpass \
   -e POSTGRES_DB=pedalogical \
-  -v ~/Repositories/AiTutor/docker/dbdata:/var/lib/postgresql/data \
+  -v $(pwd)/Docker/dbdata:/var/lib/postgresql/data \
   -p 5433:5432 \
-  postgres:16
+  postgres:17
 ```
 
 ### Windows (PowerShell)
@@ -40,14 +44,18 @@ docker run -d `
   -e POSTGRES_USER=pedalogical `
   -e POSTGRES_PASSWORD=devpass `
   -e POSTGRES_DB=pedalogical `
-  -v ${env:USERPROFILE}\Repositories\AiTutor\docker\dbdata:/var/lib/postgresql/data `
+  -v ${PWD}\Docker\dbdata:/var/lib/postgresql/data `
   -p 5433:5432 `
-  postgres:16
+  postgres:17
 ```
 
----
+This runs the official Postgres container with:
 
-## Run pgAdmin
+- A persistent volume at `./docker/dbdata`
+- Custom credentials and a default database
+- Port `5433` exposed to avoid conflicts with local Postgres
+
+## (Optional) Run pgAdmin Container
 
 ### macOS
 
@@ -57,7 +65,7 @@ docker run -d \
   --network pedalogical-network \
   -e PGADMIN_DEFAULT_EMAIL=admin@pedalogical.local \
   -e PGADMIN_DEFAULT_PASSWORD=admin \
-  -v ~/Repositories/AiTutor/docker/pgadmin:/var/lib/pgadmin \
+  -v $(pwd)/Docker/pgadmin:/var/lib/pgadmin \
   -p 5050:80 \
   dpage/pgadmin4
 ```
@@ -70,28 +78,28 @@ docker run -d `
   --network pedalogical-network `
   -e PGADMIN_DEFAULT_EMAIL=admin@pedalogical.local `
   -e PGADMIN_DEFAULT_PASSWORD=admin `
-  -v ${env:USERPROFILE}\Repositories\AiTutor\docker\pgadmin:/var/lib/pgadmin `
+  -v ${PWD}\Docker\pgadmin:/var/lib/pgadmin `
   -p 5050:80 `
   dpage/pgadmin4
 ```
 
----
+This will launch the pgAdmin web UI for managing the Postgres instance.
 
 ## Access pgAdmin
 
-- Navigate to: [http://localhost:5050](http://localhost:5050)
-- Login with:
-  - Email: `admin@pedalogical.local`
-  - Password: `admin`
+Open [http://localhost:5050](http://localhost:5050) and log in with:
 
-Add a new server:
+- **Email**: `admin@pedalogical.local`
+- **Password**: `admin`
 
-- Name: `Pedalogical DB`
-- Host: `pedalogical-db`
-- Port: `5432`
-- Username: `pedalogical`
-- Password: `devpass`
+Then, add a new server in pgAdmin:
 
----
+- **Name**: `Pedalogical DB`
+- **Host**: `pedalogical-db`
+- **Port**: `5432`
+- **Username**: `pedalogical`
+- **Password**: `devpass`
 
-Proceed to [Step 4: Configure the App](./configure-app.md).
+## Next Step
+
+Continue to [Step 4: Configure the App](./configure-app.md) to set up your connection string and local app settings.
