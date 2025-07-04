@@ -499,10 +499,12 @@
 <h2 id="2-apply-migrations">2. Apply Migrations</h2>
 <pre><code class="language-bash">dotnet ef database update --project AiTutor
 </code></pre>
-<p>This will:
-- Create the database schema in the container
-- Apply any pending migrations
-- Seed the database with initial data (including a test user)</p>
+<p>This will:</p>
+<ul>
+<li>Create the database schema in the container</li>
+<li>Apply any pending migrations</li>
+<li>Seed the database with initial data (including a test user)</li>
+</ul>
 <p><strong>Troubleshooting tip</strong>: If you get an error like <code>No project was found</code>, try adding the <code>--startup-project AiTutor</code> flag.</p>
 <hr />
 <p>Once the database is seeded, continue to <a href="../run-app/">Step 6: Run the Application</a>.</p>

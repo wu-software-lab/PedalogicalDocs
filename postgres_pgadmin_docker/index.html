@@ -22,7 +22,7 @@
     
     
       
-        <title>Step 3: Set Up PostgreSQL + pgAdmin - Pedalogical Developer Setup</title>
+        <title>Step 3: Set Up PostgreSQL + pgAdmin in Docker - Pedalogical Developer Setup</title>
       
     
     
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Step 3: Set Up PostgreSQL + pgAdmin
+              Step 3: Set Up PostgreSQL + pgAdmin in Docker
             
           </span>
         </div>
@@ -378,13 +378,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-pgadmin" class="md-nav__link">
+  <a href="#optional-run-pgadmin-container" class="md-nav__link">
     <span class="md-ellipsis">
-      Run pgAdmin
+      (Optional) Run pgAdmin Container
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Run pgAdmin">
+    <nav class="md-nav" aria-label="(Optional) Run pgAdmin Container">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -414,6 +414,15 @@
   <a href="#access-pgadmin" class="md-nav__link">
     <span class="md-ellipsis">
       Access pgAdmin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Step
     </span>
   </a>
   
@@ -562,13 +571,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-pgadmin" class="md-nav__link">
+  <a href="#optional-run-pgadmin-container" class="md-nav__link">
     <span class="md-ellipsis">
-      Run pgAdmin
+      (Optional) Run pgAdmin Container
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Run pgAdmin">
+    <nav class="md-nav" aria-label="(Optional) Run pgAdmin Container">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -603,6 +612,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#next-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Step
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -623,15 +641,16 @@
 
 
 <h1 id="step-3-set-up-postgresql-pgadmin-in-docker">Step 3: Set Up PostgreSQL + pgAdmin in Docker</h1>
-<p>This step sets up a PostgreSQL database and pgAdmin in Docker, specifically configured for Pedalogical development.</p>
-<hr />
+<p>This step sets up a PostgreSQL database and pgAdmin using Docker, specifically configured for Pedalogical development.</p>
+<blockquote>
+<p>📁 All Docker-related config and volume paths will now reference the <code>docker/</code> directory inside the project repository.</p>
+</blockquote>
 <h2 id="create-a-docker-network">Create a Docker Network</h2>
 <pre><code class="language-bash">docker network create pedalogical-network
 </code></pre>
-<p>Creates a private network so your database and tools (like pgAdmin) can communicate using container names.
-Note: <code>devpass</code> is used as the password for simplicity in development.</p>
-<hr />
+<p>This creates a private network that allows Docker containers (PostgreSQL, pgAdmin, and others) to communicate with each other by name.</p>
 <h2 id="run-postgresql-container">Run PostgreSQL Container</h2>
+<p>Navigate to the root of your <strong>Pedalogical</strong> repository, then run:</p>
 <h3 id="macos">macOS</h3>
 <pre><code class="language-bash">docker run -d \
   --name pedalogical-db \
@@ -639,9 +658,9 @@ Note: <code>devpass</code> is used as the password for simplicity in development
   -e POSTGRES_USER=pedalogical \
   -e POSTGRES_PASSWORD=devpass \
   -e POSTGRES_DB=pedalogical \
-  -v ~/Repositories/AiTutor/docker/dbdata:/var/lib/postgresql/data \
+  -v $(pwd)/Docker/dbdata:/var/lib/postgresql/data \
   -p 5433:5432 \
-  postgres:16
+  postgres:17
 </code></pre>
 <h3 id="windows-powershell">Windows (PowerShell)</h3>
 <pre><code class="language-powershell">docker run -d `
@@ -650,19 +669,24 @@ Note: <code>devpass</code> is used as the password for simplicity in development
   -e POSTGRES_USER=pedalogical `
   -e POSTGRES_PASSWORD=devpass `
   -e POSTGRES_DB=pedalogical `
-  -v ${env:USERPROFILE}\Repositories\AiTutor\docker\dbdata:/var/lib/postgresql/data `
+  -v ${PWD}\Docker\dbdata:/var/lib/postgresql/data `
   -p 5433:5432 `
-  postgres:16
+  postgres:17
 </code></pre>
-<hr />
-<h2 id="run-pgadmin">Run pgAdmin</h2>
+<p>This runs the official Postgres container with:</p>
+<ul>
+<li>A persistent volume at <code>./docker/dbdata</code></li>
+<li>Custom credentials and a default database</li>
+<li>Port <code>5433</code> exposed to avoid conflicts with local Postgres</li>
+</ul>
+<h2 id="optional-run-pgadmin-container">(Optional) Run pgAdmin Container</h2>
 <h3 id="macos_1">macOS</h3>
 <pre><code class="language-bash">docker run -d \
   --name pedalogical-pgadmin \
   --network pedalogical-network \
   -e PGADMIN_DEFAULT_EMAIL=admin@pedalogical.local \
   -e PGADMIN_DEFAULT_PASSWORD=admin \
-  -v ~/Repositories/AiTutor/docker/pgadmin:/var/lib/pgadmin \
+  -v $(pwd)/Docker/pgadmin:/var/lib/pgadmin \
   -p 5050:80 \
   dpage/pgadmin4
 </code></pre>
@@ -672,34 +696,36 @@ Note: <code>devpass</code> is used as the password for simplicity in development
   --network pedalogical-network `
   -e PGADMIN_DEFAULT_EMAIL=admin@pedalogical.local `
   -e PGADMIN_DEFAULT_PASSWORD=admin `
-  -v ${env:USERPROFILE}\Repositories\AiTutor\docker\pgadmin:/var/lib/pgadmin `
+  -v ${PWD}\Docker\pgadmin:/var/lib/pgadmin `
   -p 5050:80 `
   dpage/pgadmin4
 </code></pre>
-<hr />
+<p>This will launch the pgAdmin web UI for managing the Postgres instance.</p>
 <h2 id="access-pgadmin">Access pgAdmin</h2>
+<p>Open <a href="http://localhost:5050">http://localhost:5050</a> and log in with:</p>
 <ul>
-<li>Navigate to: <a href="http://localhost:5050">http://localhost:5050</a></li>
-<li>Login with:</li>
-<li>Email: <code>admin@pedalogical.local</code></li>
-<li>Password: <code>admin</code></li>
+<li><strong>Email</strong>: <code>admin@pedalogical.local</code></li>
+<li><strong>Password</strong>: <code>admin</code></li>
 </ul>
-<p>Add a new server:</p>
+<p>Then, add a new server in pgAdmin:</p>
 <ul>
-<li>Name: <code>Pedalogical DB</code></li>
-<li>Host: <code>pedalogical-db</code></li>
-<li>Port: <code>5432</code></li>
-<li>Username: <code>pedalogical</code></li>
-<li>Password: <code>devpass</code></li>
+<li><strong>Name</strong>: <code>Pedalogical DB</code></li>
+<li><strong>Host</strong>: <code>pedalogical-db</code></li>
+<li><strong>Port</strong>: <code>5432</code></li>
+<li><strong>Username</strong>: <code>pedalogical</code></li>
+<li><strong>Password</strong>: <code>devpass</code></li>
 </ul>
-<hr />
-<p>Proceed to <a href="../configure-app/">Step 4: Configure the App</a>.</p>
+<h2 id="next-step">Next Step</h2>
+<p>Continue to <a href="../configure-app/">Step 4: Configure the App</a> to set up your connection string and local app settings.</p>
 
 
 
 
 
 
+
+  
+  
 
 
 
