@@ -7,7 +7,7 @@ format: gfm
 
 This step sets up a PostgreSQL database and pgAdmin using Docker, specifically configured for Pedalogical development.
 
-> 📁 All Docker-related config and volume paths will now reference the `docker/` directory inside the project repository.
+> 📁 All Docker-related config and volume paths reference the `Docker/` directory inside the project repository.
 
 ## Create a Docker Network
 

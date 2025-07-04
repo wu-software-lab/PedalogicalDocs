@@ -12,3 +12,4 @@ nav:
   - "Step 4: Configure the App": configure-app.md
   - "Step 5: Run Migrations & Seed the Database": run-migrations.md
   - "Step 6: Run the Application": run-app.md
+  - "Environment Setup (.env)": env-setup.md
